@@ -458,9 +458,14 @@
         * 不写分支名就默认为tag名
 
 ## 远程仓库
++ 三个分支
+    - 远程分支
+    - 远程跟踪分支
+    - 本地分支
 + 项目经理首先在github上创建一个空的远程仓库
 + 项目经理创建本地仓库
 + 项目经理在本地的git仓库添加到远程仓库
+    - `git init | git add ./ | git commit -m` 将文件提交到本地仓库
     - `git remote add 远程仓库别名 url` 在本地添加远程仓库的别名和url
         * url可以是https也可以是ssh
         * http就是在push的时候手动填一下github登录名和密码
@@ -483,17 +488,54 @@
         ![avatar](./image/成员提交远程仓库.png)
     - `git config user.name name` 配置本项目的用户名
     - `git config user.email email` 配置本项目的邮箱
-    - 更改文件然后提交然后push
+    - `git push 远程仓库别名 分支名` 成员做出贡献，更改文件然后提交然后push
+        * 如果创建了新的分支，push之后会生成一个远程跟踪分支
+        * 除了master分支能自动跟踪远程分支能直接push不出错，其他的分支都不行都得`git push 远程仓库别名 分支名`
+        * 为了以后能直接`git push`我们把本地分支跟踪一下远程跟踪分支`git branch -u 远程仓库别名/分支名`
 + 项目经理或成员更新远程仓库的内容
-    - `git fetch 远程仓库别名`
+    - `git fetch 远程仓库别名` 将远程分支代码拉取到远程跟踪分支上
     - `dataStructure_algorithm/master`是远程跟踪分支名
         * `git checkout 远程跟踪分支名` 查看远程跟踪分支
         * 是本地分支和远程分支的媒介
         * git fetch操作是把远程代码拉倒远程跟踪分支上
         ![avatar](./image/远程跟踪分支.png)
-    - `git merge 远程跟踪分支名` 将跟踪分支合并到本地分支上结束
+    - `git merge 远程跟踪分支名` 将远程跟踪分支合并到本地分支上
         * git checkout master 首先要回到本地分支上
         * 在执行合并操作
+    - `git pull` 将远程代码直接拉取到本地分支
+        * 不用fetch + merge的组合拳，直接一步到位
+        * 如果本地分支没有跟踪过远程，先本地分支跟踪一下远程跟踪分支`git branch -u 远程仓库别名/分支名`
+        * `git pull` 拉取代码
++ 分支
+    - 在本地创建的分支并不会自动推送到远程仓库上
+    - 必须显示的推送想要分享的分支`git push 远程别名 新分支名`
+    - 一个本地分支怎么跟踪远程跟踪分支
+        1. 克隆的时候，会自动生成一个本地的master分支，已经自动跟踪了远程跟踪分支`别名/master`
+        2. 本地新建分支时，顺便跟踪他的远程跟踪分支
+            * `git checkout -b 本地分支名 远程别名/远程跟踪分支名` 或者
+            * `git checkout --track 远程别名/远程跟踪分支名`
+        3. 将一个本地分支跟踪远程跟踪分支
+            * `git branch -u 远程别名/远程跟踪分支名`
++ 总结
+    1. 经理初始化空的远程仓库
+    2. 经理创建本地仓库
+        - `git init`
+        - `git remote 别名 远程地址`
+        - `git add | git commit`
+    3. 经理推送本地代码到远程仓库
+        - `git push 别名 分支`
+    4. 邀请项目成员在github操作
+    5. 成员克隆项目到本地
+        - `git clone 仓库地址`
+    6. 成员做出贡献
+        - `git add | git commit`
+        - `git push 别名 分支`
+        - `git branch -u 别名/分支名 | git push`
+    7. 经理更新修改
+        - `git fetch 别名 | git merge 远程跟踪分支`
+        - `git branch -u 别名/分支名 | git pull`
+
+
 ## 命令一览
 ```bash
 #查看git版本
@@ -654,6 +696,12 @@ git fetch 远程仓库别名
 
 #将跟踪分支合并到本地分支上
 git merge 远程跟踪分支名
+
+#为了能直接`git push`把本地分支跟踪一下远程跟踪分支
+git branch -u 远程仓库别名/分支名
+
+#将远程代码直接拉取到本地分支
+git pull
 ```
 
 ## 小纪
