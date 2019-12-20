@@ -511,16 +511,34 @@
     - 必须显示的推送想要分享的分支`git push 远程别名 新分支名`
     - 一个本地分支怎么跟踪远程跟踪分支
         1. 克隆的时候，会自动生成一个本地的master分支，已经自动跟踪了远程跟踪分支`别名/master`
-        2. 本地新建分支时，顺便跟踪他的远程跟踪分支
-            * `git checkout -b 本地分支名 远程别名/远程跟踪分支名` 或者
-            * `git checkout --track 远程别名/远程跟踪分支名`
-        3. 将一个本地分支跟踪远程跟踪分支
+        2. 如果本地已经创建了分支：将一个本地分支跟踪远程跟踪分支
             * `git branch -u 远程别名/远程跟踪分支名`
+        3. 如果本地没有
+            * `git checkout --track 远程别名/远程跟踪分支名`
+    - 如果在push的时候遇到冲突
+        * `git pull`
+        * vim解决冲突`git add | git commit`
+        * `git push` 搞定
+    - 删除远程分支
+        * `git push 别名 --delete 分支名`
+        * `git remote prune 别名 --dry-run` 列出远程仍在远程跟踪但是远程已经删除了的分支
+        * `git remote prune 别名` 删除这些分支
++ pull request
+    - 不是自己项目组里的成员，想要提交代码，可以先Fork项目（派生）
+    - 一个项目所有Fork的人都是想想要给项目贡献代码的人，提交的代码由项目里面的contributors来判断筛选要不要采纳
+    - 对于一个Fork下来的项目在自己的远程仓库也能达到url地址
+    - 只需在本地`git clone`一下就能把所有代码搞到手
+    - 在本地查看问题解决问题之后，改动一番想要尝试提交了
+    - `git commit | git push` 之后发现是提交到了自己的Fork库里
+    - 打开github的Fork仓库发现有一个大大的pull request按钮
+    - 然后人家项目内部成员就能看到自己项目下的第三个tab页pull request可以看到我的请求。大家可以就这个问题进行讨论，内部成员可以点击`merge`按钮把代码合过来
+    ![avatar](./image/pull_requst.png)
+
 + 总结
     1. 经理初始化空的远程仓库
     2. 经理创建本地仓库
         - `git init`
-        - `git remote 别名 远程地址`
+        - `git remote 别名 远程地址` 配置用户名 邮箱
         - `git add | git commit`
     3. 经理推送本地代码到远程仓库
         - `git push 别名 分支`
